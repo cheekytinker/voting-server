@@ -20,6 +20,19 @@ describe('application logic', () => {
 
         });
 
+        it('converts to immutable', () => {
+            const state = Map();
+            const entries = ['tp', '28'];
+            const nextState = setEntries(state, entries);
+            expect(nextState).to.equal(Map({
+                    entries: List.of(
+                        'tp',
+                        '28'
+                    )
+                }
+            ))
+        });
+
     });
 
 });

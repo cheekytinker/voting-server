@@ -1,7 +1,7 @@
 import {expect} from 'chai';
-import {List} from 'immutable';
+import {List, Map} from 'immutable';
 
-describe('immutability', () =>{
+describe('immutability', () => {
 
     describe('a number', () => {
 
@@ -19,25 +19,56 @@ describe('immutability', () =>{
     });
 
     describe('a list', () => {
-       function addMovie(currentState, movie) {
-           return currentState.push(movie);
-       }
+        function addMovie(currentState, movie) {
+            return currentState.push(movie);
+        }
 
-       it('is immutable', () => {
-           let state = List.of('Trainspotting', '28 days later');
-           let nextState = addMovie(state, 'Jaws');
+        it('is immutable', () => {
+            let state = List.of('Trainspotting', '28 days later');
+            let nextState = addMovie(state, 'Jaws');
 
-           expect(nextState).to.equal(List.of(
-               'Trainspotting',
-               '28 days later',
-               'Jaws'
-           ));
+            expect(nextState).to.equal(List.of(
+                'Trainspotting',
+                '28 days later',
+                'Jaws'
+            ));
 
-           expect(state).to.equal(List.of (
-               'Trainspotting',
-               '28 days later'
-           ));
-       });
+            expect(state).to.equal(List.of(
+                'Trainspotting',
+                '28 days later'
+            ));
+        });
 
+    });
+
+    describe('a tree', () => {
+        function addMovie(currentState, movie) {
+            return currentState.set(
+                'movies',
+                currentState.get('movies').push(movie)
+            );
+        }
+
+        it('is immutable', () => {
+            let state = Map({
+                movies: List.of('ts', '28')
+            });
+            let nextState = addMovie(state, 'jaws');
+
+            expect(nextState).to.equal(Map({
+                movies: List.of(
+                    'ts',
+                    '28',
+                    'jaws'
+                )
+            }));
+
+            expect(state).to.equal(Map({
+                movies: List.of(
+                    'ts',
+                    '28'
+                )
+            }))
+        });
     });
 });

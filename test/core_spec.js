@@ -66,6 +66,25 @@ describe('application logic', () => {
                 entries: ['127', 'tp']
             }));
         });
+        it('puts both from tied vote back into entries', () => {
+            const state = fromJS({
+                vote: {
+                    pair: ['tp', '27'],
+                    tally: {
+                        'tp': 6,
+                        '27': 6
+                    }
+                },
+                entries: ['128', 'mill']
+            });
+            const nextState = next(state);
+            expect(nextState).to.equal(fromJS({
+                vote: {
+                    pair: ['128', 'mill']
+                },
+                entries: ['tp', '27']
+            }));
+        });
     });
 
     describe('vote', () => {

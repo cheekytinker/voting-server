@@ -46,6 +46,26 @@ describe('application logic', () => {
                 entries: List.of('sun')
             }));
         });
+
+        it('puts winner of vote back to entries', () => {
+            const state = fromJS({
+                vote: {
+                    pair: ['tp', '28'],
+                    tally: {
+                        'tp': 4,
+                        '28': 2
+                    }
+                },
+                entries: ['sun', 'mill', '127']
+            });
+            const nextState = next(state);
+            expect(nextState).to.equal(fromJS({
+                vote: {
+                    pair: ['sun', 'mill']
+                },
+                entries: ['127', 'tp']
+            }));
+        });
     });
 
     describe('vote', () => {
@@ -93,5 +113,6 @@ describe('application logic', () => {
 
         }))
     });
+
 
 });
